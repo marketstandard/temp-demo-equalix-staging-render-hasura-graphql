@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: demo-graphql-equalix
+    plan: starter
+    env: docker
+    region: oregon
+    autoDeploy: false
+    healthCheckPath: /healthz
+    envVars:
+      - key: HASURA_GRAPHQL_DATABASE_URL
+        fromDatabase:
+          name: demo-db-equalix
+          property: connectionString
+      - key: HASURA_GRAPHQL_ENABLE_CONSOLE
+        value: true
+      - key: HASURA_GRAPHQL_ADMIN_SECRET
+        generateValue: true
+      - key: HASURA_GRAPHQL_EXPERIMENTAL_FEATURES
+        value: naming_convention
+      - key: HASURA_GRAPHQL_DEFAULT_NAMING_CONVENTION
+        value: graphql-default
+      - key: HASURA_GRAPHQL_UNAUTHORIZED_ROLE
+        value: anonymous
+      - key: HASURA_FF_NAMING_CONVENTION_SEP_2023
+        value: true
+databases:
+  - name: demo-db-equalix
+    postgresMajorVersion: 16
+    region: oregon
